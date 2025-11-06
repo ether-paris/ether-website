@@ -2,11 +2,11 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: ether-website
+  namespace: ether
   annotations:
-    cert-manager.io/cluster-issuer: "letsencrypt-prod" # Use your ClusterIssuer
-    acme.cert-manager.io/http01-edit-in-place: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "false" # Cloudflare handles HTTPS
 spec:
-  ingressClassName: traefik # Traefik = default in K3s
+  ingressClassName: nginx
   rules:
     - host: ether.paris
       http:
@@ -18,7 +18,3 @@ spec:
                 name: ether-website
                 port:
                   number: 80
-  tls:
-    - hosts:
-        - ether.paris
-      secretName: ether-website-tls # cert-manager will create this secret

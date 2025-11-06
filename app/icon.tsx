@@ -12,7 +12,6 @@ export default function Icon() {
     (
       <img
         src="https://img.ether.paris/ether-website/assets/ether.png?width=256"
-        alt="Sabbagh Medical logotype"
         style={{
           width: "100%",
           height: "100%",
@@ -21,6 +20,6 @@ export default function Icon() {
         }}
       />
     ),
-    size,
+    size
   );
 }
