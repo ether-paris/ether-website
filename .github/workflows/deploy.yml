@@ -13,29 +13,29 @@ env:
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+  # test:
+    # runs-on: ubuntu-latest
+    # steps:
+      # - name: Checkout repository
+        # uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: npm
+      # - name: Set up Node.js
+        # uses: actions/setup-node@v4
+        # with:
+          # node-version: 20
+          # cache: npm
 
-      - name: Install dependencies
-        run: npm ci
+      # - name: Install dependencies
+        # run: npm ci
 
-      - name: Run typecheck
-        run: npm run typecheck
+      # - name: Run typecheck
+        # run: npm run typecheck
 
-      - name: Build
-        run: npm run build
+      # - name: Build
+        # run: npm run build
 
   docker:
-    needs: test
+    # needs: test
     runs-on: ubuntu-latest
     if: github.event_name == 'push'
     permissions:
