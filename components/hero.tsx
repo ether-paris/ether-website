@@ -74,7 +74,7 @@ export function Hero({
             alt={imageAlt}
             width={900}
             height={1125}
-            className="h-full w-full object-cover rounded-3xl shadow-lg shadow-black/10"
+            className="h-full w-full object-cover rounded-3xl shadow-lg shadow-black/10 "
             priority
           />
         </div>

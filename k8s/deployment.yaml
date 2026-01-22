@@ -16,12 +16,12 @@ spec:
         app: ether-website
     spec:
       nodeSelector:
-        role: web
+        role: worker
       imagePullSecrets:
         - name: ghcr-secret
       containers:
         - name: ether-website
-          image: ghcr.io/bassemsab/ether-website:latest
+          image: ghcr.io/ether-paris/ether-website:latest
           imagePullPolicy: Always
           env:
             - name: PORT
