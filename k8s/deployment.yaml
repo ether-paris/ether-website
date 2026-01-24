@@ -50,3 +50,10 @@ spec:
             limits:
               cpu: 500m
               memory: 512Mi
+          volumeMounts:
+            - name: visitors-storage
+              mountPath: /data
+      volumes:
+        - name: visitors-storage
+          persistentVolumeClaim:
+            claimName: visitors-pvc
