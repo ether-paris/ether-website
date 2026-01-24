@@ -28,6 +28,8 @@ spec:
               value: "3000"
             - name: NODE_ENV
               value: production
+            - name: ADMIN_PASSWORD
+              value: "admin123" # Replace with Secret in real usage
           ports:
             - name: http
               containerPort: 3000

@@ -6,7 +6,7 @@ WORKDIR /app
 
 # Install dependencies only when needed
 FROM base AS deps
-COPY package.json package-lock.json ./
+COPY package.json bun.lock ./
 # Bun can install from package-lock.json (it converts it to bun.lockb implicitly or respects it)
 # using 'bun install' is preferred.
 RUN bun install --frozen-lockfile

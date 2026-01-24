@@ -18,7 +18,8 @@ type LocaleLayoutProps = {
   params: ParamsInput;
 };
 
-export async function generateMetadata({ params }: LocaleLayoutProps): Promise<Metadata> {
+export async function generateMetadata(props: LocaleLayoutProps): Promise<Metadata> {
+  const params = await props.params;
   const { locale: rawLocale } = await resolveParams(params);
   const locale = isLocale(rawLocale) ? rawLocale : defaultLocale;
   const dictionary = getDictionary(locale);
@@ -62,7 +63,13 @@ export async function generateMetadata({ params }: LocaleLayoutProps): Promise<M
   };
 }
 
-export default async function LocaleLayout({ children, params }: LocaleLayoutProps) {
+export default async function LocaleLayout(props: LocaleLayoutProps) {
+  const params = await props.params;
+
+  const {
+    children
+  } = props;
+
   const { locale } = await resolveParams(params);
 
   if (!isLocale(locale)) {

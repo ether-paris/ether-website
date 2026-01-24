@@ -26,7 +26,8 @@ type HomePageProps = {
   params: ParamsInput;
 };
 
-export default async function HomePage({ params }: HomePageProps) {
+export default async function HomePage(props: HomePageProps) {
+  const params = await props.params;
   const { locale: rawLocale } = await resolveParams(params);
   const locale: Locale = isLocale(rawLocale) ? rawLocale : defaultLocale;
   const dictionary = getDictionary(locale);
