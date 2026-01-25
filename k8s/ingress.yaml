@@ -1,14 +1,29 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: ether-website
   namespace: ether
+  name: ether-website
   annotations:
-    nginx.ingress.kubernetes.io/force-ssl-redirect: "false" # Cloudflare handles HTTPS
+    cert-manager.io/cluster-issuer: letsencrypt-prod
 spec:
   ingressClassName: nginx
+  tls:
+    - hosts:
+        - ether.paris
+        - www.ether.paris
+      secretName: ether-website-tls
   rules:
     - host: ether.paris
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: ether-website
+                port:
+                  number: 80
+    - host: www.ether.paris
       http:
         paths:
           - path: /
