@@ -12,7 +12,7 @@ const mcp = new McpServer({
 
 // Resource: Visitors Log
 mcp.resource("visitors", "visitors://logs", async (uri) => {
-  const logs = executeQuery(
+  const logs = await executeQuery(
     "SELECT * FROM visitors ORDER BY timestamp DESC LIMIT 50",
   );
   return {
@@ -32,7 +32,7 @@ mcp.tool(
   { query: z.string().describe("The SQL query to execute") },
   async ({ query }) => {
     try {
-      const result = executeQuery(query);
+      const result = await executeQuery(query);
       return {
         content: [{ type: "text", text: JSON.stringify(result, null, 2) }],
       };

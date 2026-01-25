@@ -3,9 +3,10 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "dev": "vite dev",
+    "dev": "bun --bun vite dev",
     "build": "vite build",
     "preview": "vite preview",
+    "start": "bun build/index.js",
     "check": "svelte-kit sync && tsc --noEmit",
     "check:watch": "svelte-kit sync && tsc --noEmit --watch",
     "lint": "prettier --check . && eslint .",

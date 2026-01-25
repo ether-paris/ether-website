@@ -12,7 +12,7 @@ export const load: PageServerLoad = async ({ cookies }) => {
   let initialResult = null;
   if (authenticated) {
     try {
-      initialResult = executeQuery(
+      initialResult = await executeQuery(
         "SELECT * FROM visitors ORDER BY timestamp DESC LIMIT 50;",
       );
     } catch (e) {
@@ -59,7 +59,7 @@ export const actions: Actions = {
     }
 
     try {
-      const result = executeQuery(query);
+      const result = await executeQuery(query);
       return { success: true, result, query };
     } catch (e: any) {
       return fail(500, { error: e.message, query });

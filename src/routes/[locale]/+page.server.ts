@@ -20,7 +20,7 @@ export const load: PageServerLoad = async ({
     const ip = request.headers.get("x-forwarded-for") || getClientAddress();
     const userAgent = request.headers.get("user-agent") || "unknown";
     const path = `/${locale}`;
-    logVisitor(ip, userAgent, path);
+    await logVisitor(ip, userAgent, path);
   } catch (e) {
     // ignore
   }
