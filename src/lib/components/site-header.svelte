@@ -1,0 +1,202 @@
+<script lang="ts">
+  import { page } from '$app/stores';
+  import { goto } from '$app/navigation';
+  import Button from './button.svelte';
+  import { cn } from '$utils/cn';
+  import { locales, localeAbbreviations, isLocale, localeDirections } from '$lib/i18n/config';
+  import type { Locale } from '$lib/i18n/config';
+
+  interface NavigationItem {
+    label: string;
+    href: string;
+  }
+
+  interface Props {
+    locale: Locale;
+    navigation: NavigationItem[];
+    collaborateLabel: string;
+    logoAlt: string;
+    languageLabel: string;
+    homeLabel: string;
+    menuLabel: string;
+  }
+
+  let {
+    locale,
+    navigation,
+    collaborateLabel,
+    logoAlt,
+    languageLabel,
+    homeLabel,
+    menuLabel
+  }: Props = $props();
+
+  let open = $state(false);
+
+  $effect(() => {
+    document.documentElement.dir = localeDirections[locale];
+    document.documentElement.lang = locale;
+  });
+
+  let localeLinks = $derived.by(() => {
+    const url = $page.url;
+    // Assume route is /[locale]/...
+    // We want to replace the first segment
+    const segments = url.pathname.split('/').filter(Boolean);
+    const rest = segments.slice(1); // skip locale
+    const basePath = rest.length ? `/${rest.join('/')}` : '';
+    const search = url.search;
+
+    return locales.map((loc) => ({
+      locale: loc,
+      href: `/${loc}${basePath}${search}`,
+      active: loc === locale,
+      label: localeAbbreviations[loc]
+    }));
+  });
+
+  function handleLocaleChange(value: string, closeMenu = false) {
+    if (!isLocale(value)) return;
+    if (closeMenu) open = false;
+    
+    // Find href
+    const target = localeLinks.find(l => l.locale === value);
+    if (target && !target.active) {
+       document.cookie = `NEXT_LOCALE=${value}; path=/;`; // Keep cookie for persistence if needed
+       goto(target.href);
+    }
+  }
+
+  function scrollToContact() {
+    open = false;
+    const contact = document.querySelector("#contact");
+    contact?.scrollIntoView({ behavior: "smooth" });
+  }
+</script>
+
+<header class="relative z-50 px-6 pb-3 pt-4 md:sticky md:top-0 md:px-0 md:pb-0 md:pt-0">
+  <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 rounded-full border border-black/5 bg-surface px-5 py-3 shadow-retro-sm transition-all md:px-6 md:py-4 md:bg-surface/70">
+    <a
+      href={`/${locale}`}
+      aria-label={homeLabel}
+      class="flex items-center"
+    >
+      <img
+        src="https://img.ether.paris/ether-website/assets/ether.png?width=1000"
+        alt={logoAlt}
+        width={50}
+        height={50}
+        class="ml-4"
+      />
+    </a>
+
+    <nav class="hidden items-center gap-8 md:flex">
+      {#each navigation as item}
+        <a
+          href={item.href}
+          class="text-xs uppercase tracking-[0.3em] text-muted-foreground transition hover:text-foreground"
+        >
+          {item.label}
+        </a>
+      {/each}
+    </nav>
+
+    <div class="hidden items-center gap-3 md:flex">
+      <div class="text-xs">
+        <label for="desktop-language" class="sr-only">
+          {languageLabel}
+        </label>
+        <select
+          id="desktop-language"
+          value={locale}
+          onchange={(e) => handleLocaleChange(e.currentTarget.value)}
+          class="rounded-full border border-black/10 bg-surface/80 px-3 py-1 uppercase tracking-[0.3em] text-muted-foreground transition focus:outline-none focus:ring-2 focus:ring-brand"
+        >
+          {#each localeLinks as item}
+            <option value={item.locale}>
+              {item.label}
+            </option>
+          {/each}
+        </select>
+      </div>
+      <Button
+        type="button"
+        onclick={scrollToContact}
+      >
+        {collaborateLabel}
+      </Button>
+    </div>
+
+    <button
+      type="button"
+      aria-expanded={open}
+      aria-controls="mobile-menu"
+      onclick={() => open = !open}
+      class="focus-ring inline-flex h-10 w-10 items-center justify-center rounded-full border border-black/10 bg-surface md:hidden md:bg-surface/70"
+    >
+      <span class="sr-only">{menuLabel}</span>
+      <div class="grid h-4 w-4 gap-1">
+        {#each [0, 1, 2] as line}
+          <span
+            class={cn(
+              "block h-[2px] w-full rounded-full bg-foreground transition-transform duration-200",
+              open && line === 0 && "translate-y-[6px] -rotate-45",
+              open && line === 1 && "opacity-0",
+              open && line === 2 && "-translate-y-[6px] rotate-45"
+            )}
+          ></span>
+        {/each}
+      </div>
+    </button>
+  </div>
+  
+  <div
+    id="mobile-menu"
+    class={cn(
+      "absolute left-6 right-6 top-full z-10 pt-4 transition-all duration-200 md:hidden md:left-0 md:right-0",
+      open
+        ? "pointer-events-auto opacity-100 translate-y-0"
+        : "pointer-events-none -translate-y-3 opacity-0"
+    )}
+  >
+    <nav class="space-y-3 rounded-3xl border border-black/5 bg-surface p-6 shadow-retro-sm md:bg-surface/80 md:backdrop-blur-md">
+      <div class="space-y-2 text-xs">
+        <label
+          for="mobile-language"
+          class="uppercase tracking-[0.3em] text-muted-foreground"
+        >
+          {languageLabel}
+        </label>
+        <select
+          id="mobile-language"
+          value={locale}
+          onchange={(e) => handleLocaleChange(e.currentTarget.value, true)}
+          class="w-full rounded-2xl border border-black/10 bg-surface px-4 py-2 uppercase tracking-[0.3em] text-muted-foreground focus:outline-none focus:ring-2 focus:ring-brand"
+        >
+          {#each localeLinks as item}
+            <option value={item.locale}>
+              {item.label}
+            </option>
+          {/each}
+        </select>
+      </div>
+      {#each navigation as item}
+        <a
+          href={item.href}
+          onclick={() => open = false}
+          class="block rounded-2xl bg-surface px-5 py-3 text-sm uppercase tracking-[0.3em] text-muted-foreground transition hover:bg-surface hover:text-foreground md:bg-surface/60"
+        >
+          {item.label}
+        </a>
+      {/each}
+      <Button
+        type="button"
+        size="lg"
+        class="w-full"
+        onclick={scrollToContact}
+      >
+        {collaborateLabel}
+      </Button>
+    </nav>
+  </div>
+</header>

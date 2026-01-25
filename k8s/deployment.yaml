@@ -29,7 +29,11 @@ spec:
             - name: NODE_ENV
               value: production
             - name: ADMIN_PASSWORD
-              value: "admin123" # Replace with Secret in real usage
+              value: "ether-admin" # Replace with Secret in real usage
+            - name: DB_PATH
+              value: "/data/visitors.sqlite"
+            - name: ORIGIN
+              value: "https://ether.paris" # Adjust as needed
           ports:
             - name: http
               containerPort: 3000

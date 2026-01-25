@@ -38,12 +38,7 @@ const retroui = plugin(({ addBase }) => {
 
 const config: Config = {
   darkMode: ["class"],
-  content: [
-    "./app/**/*.{ts,tsx,mdx}",
-    "./components/**/*.{ts,tsx,mdx}",
-    "./lib/**/*.{ts,tsx,mdx}",
-    "./content/**/*.{md,mdx}",
-  ],
+  content: ["./src/**/*.{html,js,svelte,ts}"],
   theme: {
     container: {
       center: true,
