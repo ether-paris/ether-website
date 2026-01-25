@@ -18,6 +18,7 @@ WORKDIR /app
 
 # Copy built assets from base
 COPY --from=base /app/build ./build
+COPY --from=base /app/node_modules ./node_modules
 COPY --from=base /app/package.json ./
 
 # Create data directory for SQLite
