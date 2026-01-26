@@ -18,6 +18,9 @@ const config = {
       $utils: "src/lib/utils",
       $styles: "src/lib/styles",
     },
+    csrf: {
+      checkOrigin: false,
+    },
   },
 };
 
