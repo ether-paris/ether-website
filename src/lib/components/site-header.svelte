@@ -119,6 +119,12 @@
           {/each}
         </select>
       </div>
+      <a
+        href="/admin/tenant-onboarding"
+        class="inline-flex items-center justify-center rounded-full border-2 border-brand bg-transparent px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-brand transition hover:bg-brand hover:text-white"
+      >
+        Register Domain
+      </a>
       <Button
         type="button"
         onclick={scrollToContact}
@@ -189,6 +195,13 @@
           {item.label}
         </a>
       {/each}
+      <a
+        href="/admin/tenant-onboarding"
+        onclick={() => open = false}
+        class="block rounded-2xl border-2 border-brand bg-transparent px-5 py-3 text-center text-sm font-semibold uppercase tracking-[0.2em] text-brand transition hover:bg-brand hover:text-white"
+      >
+        Register Domain
+      </a>
       <Button
         type="button"
         size="lg"
