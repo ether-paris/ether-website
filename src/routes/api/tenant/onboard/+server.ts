@@ -207,25 +207,6 @@ async function onboardTenant(
       k8s_manifest_generated: true,
       s3_version_id: s3VersionId,
     });
-    steps.push({ step: "s3_upload", status: "success" });
-    await updateTenantStatus(domain, "in_progress", {
-      k8s_manifest_generated: true,
-      s3_version_id: s3VersionId,
-    });
-
-    // Step 8: Create Kubernetes Ingress
-    console.log(`[${domain}] Creating Kubernetes ingress...`);
-    await createMailIngress(domain);
-    steps.push({ step: "k8s_ingress", status: "success" });
-    await updateTenantStatus(domain, "in_progress", {
-      k8s_ingress_created: true,
-    });
-
-    // Mark as completed
-    await updateTenantStatus(domain, "completed", {
-      aws_ses_verified: true,
-      steps_completed: JSON.stringify(steps),
-    });
 
     // Step 8: Create Kubernetes Ingress
     console.log(`[${domain}] Creating Kubernetes ingress...`);

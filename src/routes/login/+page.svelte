@@ -12,7 +12,7 @@
     oauth_init_failed: "Failed to start authentication. Please try again.",
   };
 
-  $: errorMessage = error ? errorMessages[error] || "An unknown error occurred." : null;
+  const errorMessage = $derived(error ? errorMessages[error] || "An unknown error occurred." : null);
 </script>
 
 <svelte:head>

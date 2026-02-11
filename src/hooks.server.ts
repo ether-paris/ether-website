@@ -1,5 +1,5 @@
-import type { Handle } from '@sveltejs/kit';
-import { getSessionByToken, cleanupExpiredSessions } from '$lib/server/db';
+import type { Handle } from "@sveltejs/kit";
+import { getSessionByToken, cleanupExpiredSessions } from "$lib/server/db";
 
 // Clean up expired sessions periodically
 let lastCleanup = Date.now();
@@ -13,7 +13,7 @@ export const handle: Handle = async ({ event, resolve }) => {
   }
 
   // Get session from cookie
-  const sessionToken = event.cookies.get('session');
+  const sessionToken = event.cookies.get("session");
 
   if (sessionToken) {
     const session = await getSessionByToken(sessionToken);
@@ -21,7 +21,7 @@ export const handle: Handle = async ({ event, resolve }) => {
     if (session) {
       // Attach user to locals
       event.locals.user = {
-        id: session.id,
+        id: session.user_id,
         github_id: session.github_id,
         github_username: session.github_username,
         github_email: session.github_email,
@@ -30,7 +30,7 @@ export const handle: Handle = async ({ event, resolve }) => {
       };
     } else {
       // Invalid session, clear cookie
-      event.cookies.delete('session', { path: '/' });
+      event.cookies.delete("session", { path: "/" });
       event.locals.user = null;
     }
   } else {

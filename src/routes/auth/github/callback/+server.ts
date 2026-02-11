@@ -45,6 +45,10 @@ export const GET: RequestHandler = async ({ url, cookies }) => {
     // Redirect to dashboard
     throw redirect(302, "/dashboard");
   } catch (error: any) {
+    // Re-throw redirect responses
+    if (error.status === 302) {
+      throw error;
+    }
     console.error("OAuth callback error:", error);
     throw redirect(302, "/login?error=auth_failed");
   }
