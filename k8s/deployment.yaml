@@ -23,17 +23,30 @@ spec:
         - name: ether-website
           image: ghcr.io/ether-paris/ether-website:latest
           imagePullPolicy: Always
+          envFrom:
+            - secretRef:
+                name: ether-website-secrets
           env:
             - name: PORT
               value: "3000"
             - name: NODE_ENV
               value: production
-            - name: ADMIN_PASSWORD
-              value: "ether-admin" # Replace with Secret in real usage
             - name: DB_PATH
               value: "/data/visitors.sqlite"
             - name: ORIGIN
-              value: "https://ether.paris" # Adjust as needed
+              value: "https://ether.paris"
+            - name: BASE_URL
+              value: "https://ether.paris"
+            - name: SERVER_IP
+              value: "135.181.95.61"
+            - name: AWS_REGION
+              value: "us-east-1"
+            - name: AWS_S3_BUCKET
+              value: "ether-yamls"
+            - name: STALWART_API_URL
+              value: "https://mail.ether.paris/api"
+            - name: STALWART_ADMIN_USER
+              value: "admin"
           ports:
             - name: http
               containerPort: 3000
