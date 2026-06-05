@@ -25,7 +25,7 @@ export async function sendContactEmail(payload: ContactPayload) {
 
   const subject = `Nouvelle prise de contact · ${payload.name}`;
   const html = `
-    <h2>Nouveau message depuis ether.studio</h2>
+    <h2>Nouveau message depuis ether.paris</h2>
     <p><strong>Nom :</strong> ${payload.name}</p>
     <p><strong>Email :</strong> ${payload.email}</p>
     <p><strong>Organisation :</strong> ${payload.company ?? "—"}</p>
@@ -34,7 +34,7 @@ export async function sendContactEmail(payload: ContactPayload) {
   `;
 
   await resend.emails.send({
-    from: "Ether Studio <hello@mail.ether.studio>",
+    from: "Ether <hello@mail.ether.paris>",
     to,
     subject,
     html,
