@@ -5,7 +5,7 @@
   import { sql } from "@codemirror/lang-sql"
   import { oneDark } from "@codemirror/theme-one-dark"
   import { EditorState } from "@codemirror/state"
-  import { toast } from '$lib/stores/toast.svelte';
+  import { toast } from '$lib/stores/toast';
   import Button from '$lib/components/button.svelte';
 
   interface Props {
